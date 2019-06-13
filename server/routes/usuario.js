@@ -1,5 +1,5 @@
 const express = require('express');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt-nodejs');
 const _ = require('underscore');
 const Usuario = require('../models/usuario');
 const { verifyToken, verifyAdminRole } = require('../middlewares/auth');
