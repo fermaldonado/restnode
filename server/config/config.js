@@ -31,8 +31,6 @@ if( process.env.NODE_ENV === 'dev' ){
 	urlDB = process.env.MONGO_URI;
 }
 
-//mongodb://coffee-user:123456@ds151153.mlab.com:51153/coffee
-
 process.env.URL_DB = urlDB;
 
 // ====================================================
