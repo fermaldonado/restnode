@@ -1,11 +1,11 @@
 const express = require('express');
-const bcrypt = require('bcrypt-nodejs');
+const bcrypt = require('bcryptjs');
 const _ = require('underscore');
 const Usuario = require('../models/usuario');
 const { verifyToken, verifyAdminRole } = require('../middlewares/auth');
 const app = express();
 
-app.get('/usuario', verifyToken, (req, res) => {
+app.get('/usuario', (req, res) => {
 	let from = req.query.from || 0;
 	from = Number(from);
 
@@ -23,11 +23,11 @@ app.get('/usuario', verifyToken, (req, res) => {
 				});
 			}
 
-			Usuario.countDocuments({estado: true}, (err,conteo) => {
+			Usuario.countDocuments({estado: true}, (err,total) => {
 				res.json({
 					ok: true,
 					usuarios,
-					cuantos: conteo
+					total
 				});
 			});
 
@@ -37,7 +37,7 @@ app.get('/usuario', verifyToken, (req, res) => {
 
 });
 
-app.post('/usuario', [verifyToken, verifyAdminRole], (req, res) => {
+app.post('/usuario', (req, res) => {
 	let body = req.body;
 
 	let usuario = new Usuario({
@@ -60,17 +60,6 @@ app.post('/usuario', [verifyToken, verifyAdminRole], (req, res) => {
 			usuario: userDB
 		})
 	});
-
-	/*if(body.nombre === undefined){
-		res.status(400).json({
-			ok: false,
-			mensaje: 'Name is not optional'
-		});
-	}else{
-		res.json({
-			persona: body
-		});
-	}*/
 });
 
 app.put('/usuario/:id', [verifyToken, verifyAdminRole], (req, res) => {
